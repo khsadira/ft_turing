@@ -32,12 +32,12 @@ function checkInput(input, alphabet) {
 }
 
 /**
- * @param {*} input 
- * @param {*} index 
- * @param {*} currentState 
- * @param {*} nextState 
- * @param {*} toWrite 
- * @param {*} action 
+ * @param {*} input
+ * @param {*} index
+ * @param {*} currentState
+ * @param {*} nextState
+ * @param {*} toWrite
+ * @param {*} action
  */
 function printState(input, index, currentState, nextState, toWrite, action) {
 	process.stdout.write("[")
@@ -56,20 +56,19 @@ function printState(input, index, currentState, nextState, toWrite, action) {
 }
 
 /**
- * @param {*} input 
- * @param {*} index 
- * @param {*} state 
- * @param {*} instructions 
+ * @param {*} input
+ * @param {*} index
+ * @param {*} state
+ * @param {*} instructions
  */
 function algo(input, index, state, instructions, finals) {
 	if (state == finals) {
-		console.log("FINAL")
 		return
 	}
 	for (var instruction of instructions[state]) {
 		if (instruction.read == input[index]) {
-			input = input.replaceAt(index, instruction.write)
 			printState(input, index, state, instruction.to_state, instruction.write, instruction.action)
+			input = input.replaceAt(index, instruction.write)
 			index += instruction.action == "RIGHT" ? 1 : -1
 			return algo(input, index, instruction.to_state, instructions, finals)
 		}
