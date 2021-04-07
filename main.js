@@ -112,11 +112,12 @@ function printState(input, index, currentState, nextState, toWrite, action) {
  * @param {*} instructions
  */
 function algo(input, index, state, instructions, finals) {
-	if (state == finals) {
+	if (finals.indexOf(state) == 0) {
 		return
 	}
 	for (var instruction of instructions[state]) {
 		if (instruction.read == input[index]) {
+			//add count to see if blocked at the same state
 			printState(input, index, state, instruction.to_state, instruction.write, instruction.action)
 			return algo(input.replaceAt(index, instruction.write), index + (instruction.action == "RIGHT" ? 1 : -1), instruction.to_state, instructions, finals)
 		}
