@@ -13,6 +13,56 @@ String.prototype.replaceAt = function(index, replacement) {
  * @returns 
  */
 function checkJson(data) {
+	if (data.name == undefined || typeof(data.name) != "string"
+	|| data.alphabet == undefined || typeof(data.alphabet) != "object"
+	|| data.blank == undefined || typeof(data.blank) != "string"
+	|| data.states == undefined || typeof(data.states) != "object"
+	|| data.initial == undefined || typeof(data.initial) != "string"
+	|| data.finals == undefined || typeof(data.finals) != "object" 
+	|| data.transitions == undefined || typeof(data.transitions) != "object") {
+		console.log("Some JSON fields are missing or not well formatted.")
+		return 1
+	}
+	for (var i = 0; i < data.alphabet.length; i++) {
+		if (typeof(data.alphabet[i]) != "string" || data.alphabet[i].length > 1) {
+			console.log("Each character of the alphabet must be a string of length strictly equal to 1.")
+			return 1
+		}
+	}
+	if (data.alphabet.indexOf(data.blank) == -1) {
+		console.log("Blank should be part of the alphabet.")
+		return 1
+	}
+	for (var i = 0; i < data.states.length; i++) {
+		if (typeof(data.states[i]) != "string") {
+			console.log("Each element of the statest must be a string.")
+			return 1
+		}
+	}
+	for (var i = 0; i < data.finals.length; i++) {
+		if (typeof(data.finals[i]) != "string") {
+			console.log("Each element of the statest must be a string.")
+			return 1
+		}
+	}
+	for (var transition in data.transitions) {
+		if (data.states.indexOf(transition) == -1) {
+			console.log("Each transition should be part of states.")
+			return 1
+		}
+
+		var metaInstruction = data.transitions[transition]
+
+		for (var instruction of metaInstruction) {
+			if (instruction.read == undefined || typeof(instruction.read) != "string"
+			|| instruction.to_state == undefined || typeof(instruction.to_state) != "string"
+			|| instruction.write == undefined || typeof(instruction.write) != "string"
+			|| instruction.action == undefined || typeof(instruction.action) != "string") {
+				console.log("JSON Transitions field is not well formatted.")
+				return 1
+			}
+		}
+	}
 	return 0
 }
 
