@@ -98,9 +98,9 @@ function printState(input, index, currentState, nextState, toWrite, action) {
 			process.stdout.write(input[i])
 		}
 	}
-	for (var i = 0; i < 20 - input.length; i++) {
-		process.stdout.write(".")
-	}
+	// for (var i = 0; i < 20 - input.length; i++) {
+	// 	process.stdout.write(".")
+	// }
 	process.stdout.write("] ")
 	process.stdout.write("(" + currentState + ", " + input[index] + ") " + "(" + nextState + ", " + toWrite + ", " + action + ")\n")
 }
@@ -111,15 +111,17 @@ function printState(input, index, currentState, nextState, toWrite, action) {
  * @param {*} state
  * @param {*} instructions
  */
-function algo(input, index, state, instructions, finals) {
+function algo(input, index, blank, state, instructions, finals) {
 	if (finals.indexOf(state) == 0) {
 		return
 	}
 	for (var instruction of instructions[state]) {
 		if (instruction.read == input[index]) {
-			//add count to see if blocked at the same state
 			printState(input, index, state, instruction.to_state, instruction.write, instruction.action)
-			return algo(input.replaceAt(index, instruction.write), index + (instruction.action == "RIGHT" ? 1 : -1), instruction.to_state, instructions, finals)
+			if (instruction.action == "RIGHT" && index + 1 == input.length) {
+				input += blank
+			}
+			return algo(input.replaceAt(index, instruction.write), index + (instruction.action == "RIGHT" ? 1 : -1), blank, instruction.to_state, instructions, finals)
 		}
 	}
 }
@@ -156,15 +158,19 @@ function main() {
 			return
 		}
 
-		var input = args[1]
 		var data = JSON.parse(fs.readFileSync(args[0]));
-
+		var input = args[1];
+		
 		if (checkJson(data) || checkInputAlphabet(input, data.alphabet)) {
 			return
 		}
 
+		for (var i = 0; i < 20 - args[1].length; i++) {
+			input += data.blank
+		}
+		
 		showEnv(input, data)
-		algo(input, 0, data.initial, data.transitions, data.finals)
+		algo(input, 0, data.blank, data.initial, data.transitions, data.finals)
 	} catch (e) {
 		console.log(e.message);
 	}

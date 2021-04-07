@@ -1,0 +1,27 @@
+{
+	"name"    : "zero_power_2n",
+	"alphabet": [ "0", ".", "y", "n" ],
+	"blank"   : ".",
+	"states"  : [ "start", "validate", "even", "odd", "end", "HALT" ],
+	"initial" : "start",
+	"finals"  : [ "HALT" ],
+	"transitions" : {
+		"start": [
+			{ "read" : ".", "to_state": "start", "write": ".", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "even", "write": "0", "action": "RIGHT"}
+		],
+		"even": [
+			{ "read" : ".", "to_state": "end", "write": "n", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "odd", "write": "0", "action": "RIGHT"}
+		],
+		"odd": [
+			{ "read" : ".", "to_state": "end", "write": "y", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "even", "write": "0", "action": "RIGHT"}
+		],
+		"end": [
+			{ "read" : ".", "to_state": "end", "write": ".", "action": "LEFT"},
+			{ "read" : "y", "to_state": "HALT", "write": "y", "action": "HALT"},
+			{ "read" : "n", "to_state": "HALT", "write": "n", "action": "HALT"}
+		]
+	}
+}

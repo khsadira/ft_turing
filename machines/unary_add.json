@@ -1,0 +1,10 @@
+{
+    "name" : "unary_sub",
+    "alphabet": [ "1", ".", "+", "=" ],
+    "blank" : ".",
+    "states" : [ "scanright", "addingone", "addone", "skip", "HALT" ],
+    "initial" : "scanright",
+    "finals" : [ "HALT" ],
+    "transitions" : {
+    }
+}
