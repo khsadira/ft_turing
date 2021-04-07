@@ -21,7 +21,7 @@ function checkJson(data) {
  * @param {*} alphabet 
  * @returns 
  */
-function checkInput(input, alphabet) {
+function checkInputAlphabet(input, alphabet) {
 	for (var i = 0; i < input.length; i++) {
 		if (alphabet.indexOf(input[i]) == -1) {
 			console.log("Input have different character than Alphabet field");
@@ -68,11 +68,29 @@ function algo(input, index, state, instructions, finals) {
 	for (var instruction of instructions[state]) {
 		if (instruction.read == input[index]) {
 			printState(input, index, state, instruction.to_state, instruction.write, instruction.action)
-			input = input.replaceAt(index, instruction.write)
-			index += instruction.action == "RIGHT" ? 1 : -1
-			return algo(input, index, instruction.to_state, instructions, finals)
+			return algo(input.replaceAt(index, instruction.write), index + (instruction.action == "RIGHT" ? 1 : -1), instruction.to_state, instructions, finals)
 		}
 	}
+}
+
+function showEnv(input, data) {
+	console.log("*************************************************************************")
+	console.log("Input:", input, "\n")
+	console.log("Machine:", data.name)
+	console.log("Alphabet:", data.alphabet)
+	console.log("States:", data.states)
+	console.log("Initial:", data.initial)
+	console.log("Finals:", data.finals)
+
+	for (var transition in data.transitions) {
+		var metaInstruction = data.transitions[transition]
+
+		for (var instruction of metaInstruction) {
+			console.log("(" + transition + ", " + instruction.read + ")", "->", "(" + instruction.to_state + ", " + instruction.write + ", " + instruction.action + ")")
+		}
+	}
+
+	console.log("*************************************************************************")
 }
 
 /**
@@ -90,28 +108,11 @@ function main() {
 		var input = args[1]
 		var data = JSON.parse(fs.readFileSync(args[0]));
 
-		if (checkJson(data) || checkInput(input, data.alphabet)) {
+		if (checkJson(data) || checkInputAlphabet(input, data.alphabet)) {
 			return
 		}
 
-		
-		console.log("*************************************************************************")
-		console.log("Input:", input, "\n")
-		console.log("Machine:", data.name)
-		console.log("Alphabet:", data.alphabet)
-		console.log("States:", data.states)
-		console.log("Initial:", data.initial)
-		console.log("Finals:", data.finals)
-
-		for (var transition in data.transitions) {
-			var metaInstruction = data.transitions[transition]
-
-			for (var instruction of metaInstruction) {
-				console.log("(" + transition + ", " + instruction.read + ")", "->", "(" + instruction.to_state + ", " + instruction.write + ", " + instruction.action + ")")
-			}
-		}
-
-		console.log("*************************************************************************")
+		showEnv(input, data)
 		algo(input, 0, data.initial, data.transitions, data.finals)
 	} catch (e) {
 		console.log(e.message);
