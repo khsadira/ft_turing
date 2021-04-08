@@ -20,8 +20,8 @@
 		],
 		"end": [
 			{ "read" : ".", "to_state": "end", "write": ".", "action": "LEFT"},
-			{ "read" : "y", "to_state": "HALT", "write": "y", "action": "HALT"},
-			{ "read" : "n", "to_state": "HALT", "write": "n", "action": "HALT"}
+			{ "read" : "y", "to_state": "HALT", "write": "y", "action": "RIGHT"},
+			{ "read" : "n", "to_state": "HALT", "write": "n", "action": "RIGHT"}
 		]
 	}
 }

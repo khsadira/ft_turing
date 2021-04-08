@@ -111,7 +111,7 @@ function printState(input, index, currentState, nextState, toWrite, action) {
  * @param {*} state
  * @param {*} instructions
  */
-function algo(input, index, blank, state, instructions, finals) {
+function runMachine(input, index, blank, state, instructions, finals) {
 	if (finals.indexOf(state) == 0) {
 		return
 	}
@@ -121,9 +121,10 @@ function algo(input, index, blank, state, instructions, finals) {
 			if (instruction.action == "RIGHT" && index + 1 == input.length) {
 				input += blank
 			}
-			return algo(input.replaceAt(index, instruction.write), index + (instruction.action == "RIGHT" ? 1 : -1), blank, instruction.to_state, instructions, finals)
+			return runMachine(input.replaceAt(index, instruction.write), index + (instruction.action == "RIGHT" ? 1 : -1), blank, instruction.to_state, instructions, finals)
 		}
 	}
+	console.log("Machine finished without final state reached")
 }
 
 function showEnv(input, data) {
@@ -170,7 +171,7 @@ function main() {
 		}
 		
 		showEnv(input, data)
-		algo(input, 0, data.blank, data.initial, data.transitions, data.finals)
+		runMachine(input, 0, data.blank, data.initial, data.transitions, data.finals)
 	} catch (e) {
 		console.log(e.message);
 	}
