@@ -1,0 +1,45 @@
+{
+	"name"    : "zeron_onen",
+	"alphabet": [ "0", "1", "i", "j", ".", "y", "n" ],
+	"blank"   : ".",
+	"states"  : [ "start", "validate", "end", "find1", "find0", "findi", "HALT", "forceend" ],
+	"initial" : "start",
+	"finals"  : [ "HALT" ],
+	"transitions" : {
+		"start": [
+			{ "read" : "0", "to_state": "find1", "write": "i", "action": "RIGHT"}
+		],
+		"find1": [
+			{ "read" : ".", "to_state": "end", "write": "n", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "find1", "write": "0", "action": "RIGHT"},
+			{ "read" : "j", "to_state": "find1", "write": "j", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "findi", "write": "j", "action": "LEFT"}
+		],
+		"findi": [
+			{ "read" : "0", "to_state": "findi", "write": "0", "action": "LEFT"},
+			{ "read" : "j", "to_state": "findi", "write": "j", "action": "LEFT"},
+			{ "read" : "i", "to_state": "find0", "write": "i", "action": "RIGHT"}
+		],
+		"find0": [
+			{ "read" : ".", "to_state": "end", "write": "y", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "find1", "write": "i", "action": "RIGHT"},
+			{ "read" : "j", "to_state": "find0", "write": "j", "action": "RIGHT"},
+			{ "read" : "i", "to_state": "find0", "write": "i", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "forceend", "write": "1", "action": "RIGHT"}
+		],
+		"end": [
+			{ "read" : ".", "to_state": "end", "write": ".", "action": "LEFT"},
+			{ "read" : "y", "to_state": "HALT", "write": "y", "action": "RIGHT"},
+			{ "read" : "n", "to_state": "HALT", "write": "n", "action": "RIGHT"}
+		],
+		"forceend": [
+			{ "read" : ".", "to_state": "end", "write": "n", "action": "RIGHT"},
+			{ "read" : "y", "to_state": "forceend", "write": "y", "action": "RIGHT"},
+			{ "read" : "n", "to_state": "forceend", "write": "n", "action": "RIGHT"},
+			{ "read" : "i", "to_state": "forceend", "write": "i", "action": "RIGHT"},
+			{ "read" : "j", "to_state": "forceend", "write": "j", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "forceend", "write": "0", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "forceend", "write": "1", "action": "RIGHT"}
+		]
+	}
+}
