@@ -8,10 +8,6 @@ String.prototype.replaceAt = function(index, replacement) {
     return this.substring(0, index) + replacement + this.substring(index + 1);
 }
 
-/**
- * @param {*} data 
- * @returns 
- */
 function checkJson(data) {
 	if (data.name == undefined || typeof(data.name) != "string"
 	|| data.alphabet == undefined || typeof(data.alphabet) != "object"
@@ -66,11 +62,7 @@ function checkJson(data) {
 	return 0
 }
 
-/**
- * @param {*} input 
- * @param {*} alphabet 
- * @returns 
- */
+
 function checkInputAlphabet(input, alphabet) {
 	for (var i = 0; i < input.length; i++) {
 		if (alphabet.indexOf(input[i]) == -1) {
@@ -81,15 +73,6 @@ function checkInputAlphabet(input, alphabet) {
 	return 0
 }
 
-/**
- * 
- * @param {*} input 
- * @param {*} index 
- * @param {*} currentState 
- * @param {*} nextState 
- * @param {*} toWrite 
- * @param {*} action 
- */
 function printState(input, index, currentState, nextState, toWrite, action) {
 	process.stdout.write("[")
 	for (var i = 0; i < input.length; i++) {
@@ -106,14 +89,9 @@ function printState(input, index, currentState, nextState, toWrite, action) {
 	process.stdout.write("(" + currentState + ", " + input[index] + ") " + "(" + nextState + ", " + toWrite + ", " + action + ")\n")
 }
 
-/**
- * @param {*} input
- * @param {*} index
- * @param {*} state
- * @param {*} instructions
- */
 function runMachine(input, index, blank, state, instructions, finals) {
 	if (finals.indexOf(state) == 0) {
+		console.log("*************************************************************************\nResult : [" + input + "]\n*************************************************************************")
 		return
 	}
 	for (var instruction of instructions[state]) {
