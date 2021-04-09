@@ -7,7 +7,6 @@
 	"finals"  : [ "HALT" ],
 	"transitions" : {
 		"start": [
-			{ "read" : ".", "to_state": "start", "write": ".", "action": "RIGHT"},
 			{ "read" : "0", "to_state": "even", "write": "0", "action": "RIGHT"}
 		],
 		"even": [

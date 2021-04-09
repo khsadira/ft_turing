@@ -82,12 +82,13 @@ function checkInputAlphabet(input, alphabet) {
 }
 
 /**
- * @param {*} input
- * @param {*} index
- * @param {*} currentState
- * @param {*} nextState
- * @param {*} toWrite
- * @param {*} action
+ * 
+ * @param {*} input 
+ * @param {*} index 
+ * @param {*} currentState 
+ * @param {*} nextState 
+ * @param {*} toWrite 
+ * @param {*} action 
  */
 function printState(input, index, currentState, nextState, toWrite, action) {
 	process.stdout.write("[")
@@ -121,12 +122,18 @@ function runMachine(input, index, blank, state, instructions, finals) {
 			if (instruction.action == "RIGHT" && index + 1 == input.length) {
 				input += blank
 			}
+			
 			return runMachine(input.replaceAt(index, instruction.write), index + (instruction.action == "RIGHT" ? 1 : -1), blank, instruction.to_state, instructions, finals)
 		}
 	}
 	console.log("Machine finished without final state reached")
 }
 
+/**
+ * 
+ * @param {*} input 
+ * @param {*} data 
+ */
 function showEnv(input, data) {
 	console.log("*************************************************************************")
 	console.log("Input:", input, "\n")
