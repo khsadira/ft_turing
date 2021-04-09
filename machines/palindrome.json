@@ -1,0 +1,67 @@
+{
+	"name"    : "palindrome",
+	"alphabet": [ "0", "1", ".", "y", "n", "x", "s" ],
+	"blank"   : ".",
+	"states"  : [ "start", "end", "find1", "find0", "find.0", "forceok", "findnext", "find.1", "finds", "HALT", "forceend" ],
+	"initial" : "start",
+	"finals"  : [ "HALT" ],
+	"transitions" : {
+		"start": [
+			{ "read" : "0", "to_state": "find.0", "write": "s", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "find.1", "write": "s", "action": "RIGHT"}
+		],
+		"findnext": [
+			{ "read" : ".", "to_state": "end", "write": "y", "action": "RIGHT"},
+			{ "read" : "x", "to_state": "findnext", "write": "x", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "find.0", "write": "x", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "find.1", "write": "x", "action": "RIGHT"}
+		],
+		"find.0": [
+			{ "read" : ".", "to_state": "find0", "write": ".", "action": "LEFT"},
+			{ "read" : "0", "to_state": "find.0", "write": "0", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "find.0", "write": "1", "action": "RIGHT"},
+			{ "read" : "x", "to_state": "find.0", "write": "x", "action": "RIGHT"}
+		],
+		"find0": [
+			{ "read" : "0", "to_state": "finds", "write": "x", "action": "LEFT"},
+			{ "read" : "1", "to_state": "forceend", "write": "1", "action": "RIGHT"},
+			{ "read" : "x", "to_state": "find0", "write": "x", "action": "LEFT"},
+			{ "read" : "s", "to_state": "forceok", "write": "s", "action": "RIGHT"}
+		],
+		"find.1": [
+			{ "read" : ".", "to_state": "find1", "write": ".", "action": "LEFT"},
+			{ "read" : "0", "to_state": "find.1", "write": "0", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "find.1", "write": "1", "action": "RIGHT"},
+			{ "read" : "x", "to_state": "find.1", "write": "x", "action": "RIGHT"}
+		],
+		"find1": [
+			{ "read" : "1", "to_state": "finds", "write": "x", "action": "LEFT"},
+			{ "read" : "0", "to_state": "forceend", "write": "1", "action": "RIGHT"},
+			{ "read" : "x", "to_state": "find1", "write": "x", "action": "LEFT"},
+			{ "read" : "s", "to_state": "forceok", "write": "s", "action": "RIGHT"}
+		],
+		"finds": [
+			{ "read" : "s", "to_state": "findnext", "write": "s", "action": "RIGHT"},
+			{ "read" : "x", "to_state": "finds", "write": "x", "action": "LEFT"},
+			{ "read" : "0", "to_state": "finds", "write": "0", "action": "LEFT"},
+			{ "read" : "1", "to_state": "finds", "write": "1", "action": "LEFT"}
+		],
+		"end": [
+			{ "read" : ".", "to_state": "end", "write": ".", "action": "LEFT"},
+			{ "read" : "y", "to_state": "HALT", "write": "y", "action": "RIGHT"},
+			{ "read" : "n", "to_state": "HALT", "write": "n", "action": "RIGHT"}
+		],
+		"forceend": [
+			{ "read" : ".", "to_state": "end", "write": "n", "action": "RIGHT"},
+			{ "read" : "x", "to_state": "forceend", "write": "x", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "forceend", "write": "0", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "forceend", "write": "1", "action": "RIGHT"}
+		],
+		"forceok": [
+			{ "read" : ".", "to_state": "end", "write": "y", "action": "RIGHT"},
+			{ "read" : "x", "to_state": "forceok", "write": "x", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "forceok", "write": "0", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "forceok", "write": "1", "action": "RIGHT"}
+		]
+	}
+}

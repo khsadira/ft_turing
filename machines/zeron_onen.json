@@ -2,7 +2,7 @@
 	"name"    : "zeron_onen",
 	"alphabet": [ "0", "1", "i", "j", ".", "y", "n" ],
 	"blank"   : ".",
-	"states"  : [ "start", "validate", "end", "find1", "find0", "findi", "HALT", "forceend" ],
+	"states"  : [ "start", "end", "find1", "find0", "findi", "HALT", "forceend" ],
 	"initial" : "start",
 	"finals"  : [ "HALT" ],
 	"transitions" : {

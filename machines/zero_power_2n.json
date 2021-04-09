@@ -2,7 +2,7 @@
 	"name"    : "zero_power_2n",
 	"alphabet": [ "0", ".", "y", "n" ],
 	"blank"   : ".",
-	"states"  : [ "start", "validate", "even", "odd", "end", "HALT" ],
+	"states"  : [ "start", "even", "odd", "end", "HALT" ],
 	"initial" : "start",
 	"finals"  : [ "HALT" ],
 	"transitions" : {
