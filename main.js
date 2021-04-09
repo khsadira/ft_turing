@@ -89,9 +89,12 @@ function printState(input, index, currentState, nextState, toWrite, action) {
 	process.stdout.write("(" + currentState + ", " + input[index] + ") " + "(" + nextState + ", " + toWrite + ", " + action + ")\n")
 }
 
-function runMachine(input, index, blank, state, instructions, finals) {
+function runMachine(input, index, blank, state, instructions, finals, iter) {
 	if (finals.indexOf(state) == 0) {
-		console.log("*************************************************************************\nResult : [" + input + "]\n*************************************************************************")
+		console.log("*************************************************************************")
+		console.log("Result : [" + input + "]")
+		console.log("Complexity: " + iter + " steps")
+		console.log("*************************************************************************")
 		return
 	}
 	for (var instruction of instructions[state]) {
@@ -101,7 +104,7 @@ function runMachine(input, index, blank, state, instructions, finals) {
 				input += blank
 			}
 			
-			return runMachine(input.replaceAt(index, instruction.write), index + (instruction.action == "RIGHT" ? 1 : -1), blank, instruction.to_state, instructions, finals)
+			return runMachine(input.replaceAt(index, instruction.write), index + (instruction.action == "RIGHT" ? 1 : -1), blank, instruction.to_state, instructions, finals, iter+1)
 		}
 	}
 	console.log("Machine finished without final state reached")
@@ -156,7 +159,7 @@ function main() {
 		}
 		
 		showEnv(input, data)
-		runMachine(input, 0, data.blank, data.initial, data.transitions, data.finals)
+		runMachine(input, 0, data.blank, data.initial, data.transitions, data.finals, 0)
 	} catch (e) {
 		console.log(e.message);
 	}
