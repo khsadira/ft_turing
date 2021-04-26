@@ -1,4 +1,4 @@
-var fs = require("fs")
+const fs = require("fs")
 
 String.prototype.replaceAt = function(index, replacement) {
     if (index >= this.length) {
@@ -71,9 +71,7 @@ function checkJson(data) {
 			return 1
 		}
 
-		const metaInstruction = data.transitions[transition]
-
-		for (const instruction of metaInstruction) {
+		for (const instruction of data.transitions[transition]) {
 			if (instruction.read == undefined || typeof(instruction.read) != "string"
 			|| instruction.to_state == undefined || typeof(instruction.to_state) != "string"
 			|| instruction.write == undefined || typeof(instruction.write) != "string"
