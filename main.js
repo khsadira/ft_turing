@@ -136,6 +136,7 @@ function runMachine(input, index, blank, state, instructions, finals, iter) {
 		console.log("*************************************************************************");
 		return
 	}
+
 	for (const instruction of instructions[state]) {
 		if (instruction.read == input[index]) {
 			printState(input, index, state, instruction.to_state, instruction.write, instruction.action)
@@ -146,11 +147,6 @@ function runMachine(input, index, blank, state, instructions, finals, iter) {
 	console.log("Machine finished without final state reached")
 }
 
-/**
- * 
- * @param {*} input 
- * @param {*} data 
- */
 function showEnv(input, data) {
 	console.log("*************************************************************************")
 	console.log("Input:", input)
@@ -169,9 +165,6 @@ function showEnv(input, data) {
 	console.log("*************************************************************************")
 }
 
-/**
- * @description
- */
 function main() {
 	try {
 		const args = process.argv.slice(2, process.argv.length)
