@@ -182,7 +182,7 @@ function main() {
 		}
 		
 		showEnv(input, data)
-		runMachine(input, 0, data.blank, data.initial, data.transitions, data.finals, 0)
+		runMachine(input+data.blank+data.blank+data.blank, 0, data.blank, data.initial, data.transitions, data.finals, 0)
 	} catch (e) {
 		console.log(e.message);
 	}
