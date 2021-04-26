@@ -1,6 +1,6 @@
 {
     "name" : "unary_add",
-    "alphabet": [ "1", ".", "+", "=", "X" ],
+    "alphabet": [ "1", ".", "+", "=" ],
     "blank" : ".",
     "states" : [ "start", "replaceEgual", "end", "HALT" ],
     "initial" : "start",
