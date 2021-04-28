@@ -30,13 +30,16 @@ function checkJsonStatesRec(states, i, length) {
 	return 0
 }
 
-function checkJsonFinalsRec(finals, i, length) {
+function checkJsonFinalsRec(finals, i, length, states) {
 	if (i < length) {
 		if (typeof(finals[i]) != "string") {
-			console.log("Each element of Finals must be a string.")
-			return 1
+			console.log("Each element of Finals must be a string.");
+			return 1;
+		} else if (states.indexOf(finals[i]) == -1) {
+			console.log("Each elements of finals should be a part of states.");
+			return 1;
 		}
-		return checkJsonFinalsRec(finals, i+1, length)
+		return checkJsonFinalsRec(finals, i+1, length, states)
 	}
 	return 0
 }
@@ -62,7 +65,7 @@ function checkJson(data) {
 	if (checkJsonStatesRec(data.states, 0, data.states.length)) {
 		return 1
 	}
-	if (checkJsonFinalsRec(data.finals, 0, data.finals.length)) {
+	if (checkJsonFinalsRec(data.finals, 0, data.finals.length, data.states)) {
 		return 1
 	}
 	for (const transition in data.transitions) {
