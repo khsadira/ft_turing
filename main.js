@@ -19,17 +19,6 @@ function checkJsonAlphRec(alphabet, i, length) {
 	return 0
 }
 
-function checkJsonStatesRec(states, i, length) {
-	if (i < length) {
-		if (typeof(states[i]) != "string") {
-			console.log("Each element of States must be a string.")
-			return 1
-		}
-		return checkJsonStatesRec(states, i+1, length)
-	}
-	return 0
-}
-
 function checkJsonFinalsRec(finals, i, length, states) {
 	if (i < length) {
 		if (typeof(finals[i]) != "string") {
@@ -62,9 +51,11 @@ function checkJson(data) {
 		console.log("Blank should be part of the alphabet.")
 		return 1
 	}
-	if (checkJsonStatesRec(data.states, 0, data.states.length)) {
-		return 1
-	}
+	data.states.forEach(state => {
+		if (typeof(state) != "string") {
+			throw new Error("Each element of States must be a string.")
+		}
+	})
 	if (checkJsonFinalsRec(data.finals, 0, data.finals.length, data.states)) {
 		return 1
 	}
