@@ -6,13 +6,13 @@
 	"initial" : "odd",
 	"finals"  : [ "HALT" ],
 	"transitions" : {
-		"even": [
-			{ "read" : ".", "to_state": "HALT", "write": "n", "action": "RIGHT"},
-			{ "read" : "0", "to_state": "odd", "write": "0", "action": "RIGHT"}
-		],
 		"odd": [
 			{ "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"},
 			{ "read" : "0", "to_state": "even", "write": "0", "action": "RIGHT"}
+		],
+		"even": [
+			{ "read" : ".", "to_state": "HALT", "write": "n", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "odd", "write": "0", "action": "RIGHT"}
 		]
 	}
 }

@@ -4,9 +4,6 @@ var tag = ["A","B","C","D","E","F","G"]
 var tag2= ["a","b","c","d","e","f","g"]
 
 function findTransi(transitions, state) {
-    if (state == "HALT") {
-        return "S"
-    }
     var i = 0;
     for (var transition in transitions) {
         if (transition == state) {
@@ -18,7 +15,7 @@ function findTransi(transitions, state) {
 
 function findTransi2(transitions, state) {
     if (state == "HALT") {
-        return "S"
+        return "s"
     }
     var i = 0;
     for (var transition in transitions) {

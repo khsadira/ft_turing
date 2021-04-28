@@ -10,12 +10,11 @@ alphabet max size: 4
 side separator: #
 current input pos: I
 */
-std::string encoded_func_names("ABCD");
-int alphabet_max_size = 4;
+std::string encoded_func_names("ABCDEFS");
 
 std::string							utm("");
-std::string							input_alphabet("1.+="); // alphabet other than UTM alphabet
-std::string							alphabet("1.+=");
+std::string							input_alphabet("1.+=-0ijyn"); // alphabet other than UTM alphabet
+std::string							alphabet("1.+=-0ijyn");
 std::vector<std::string>			states{"start"};
 std::map<std::string, std::string>	transitions;
 
@@ -62,12 +61,25 @@ void addstatestransitions()
 		for (int i = 0; i < encoded_func_names.length(); i++)
 		{
 			states.push_back(str(input_alphabet[o]) + "_find_" + str(encoded_func_names[i]));
-			for (int j = 0; j < alphabet.length(); j++)
+			if (encoded_func_names[i] == 'S')
 			{
-				if (alphabet[j] != encoded_func_names[i])
-					transitions[states.back()] += make_transition(alphabet[j], states.back(), alphabet[j], "LEFT");
-				else
-					transitions[states.back()] += make_transition(alphabet[j], str(input_alphabet[o]) + "_learn_" + str(encoded_func_names[i]), alphabet[j], "RIGHT");
+				for (int j = 0; j < alphabet.length(); j++)
+				{
+					if (alphabet[j] != 'I')
+						transitions[states.back()] += make_transition(alphabet[j], states.back(), alphabet[j], "RIGHT");
+					else
+						transitions[states.back()] += make_transition('I', "HALT", input_alphabet[o], "RIGHT");
+				}
+			}
+			else
+			{
+				for (int j = 0; j < alphabet.length(); j++)
+				{
+					if (alphabet[j] != encoded_func_names[i])
+						transitions[states.back()] += make_transition(alphabet[j], states.back(), alphabet[j], "LEFT");
+					else
+						transitions[states.back()] += make_transition(alphabet[j], str(input_alphabet[o]) + "_learn_" + str(encoded_func_names[i]), alphabet[j], "RIGHT");
+				}
 			}
 			states.push_back(str(input_alphabet[o]) + "_learn_" + str(encoded_func_names[i]));
 			for (int j = 0; j < input_alphabet.length(); j++)
@@ -94,28 +106,30 @@ void addstatestransitions()
 			transitions[states.back()] += make_transition(':', states.back(), ':', "RIGHT");
 			for (int j = 0; j < encoded_func_names.length(); j++)
 			{
-				states.push_back(str(input_alphabet[o]) + "_learn_" + str(encoded_func_names[i]) + str(input_alphabet[o]) + str(encoded_func_names[j]));
-				for (int k = 0; k < input_alphabet.length(); k++)
 				{
-					transitions[states.back()] += make_transition(input_alphabet[k], states.back() + str(input_alphabet[k]), input_alphabet[k], "RIGHT");
-				}
-				for (int k = 0; k < input_alphabet.length(); k++)
-				{
-					states.push_back(str(input_alphabet[o]) + "_learn_" + str(encoded_func_names[i]) + str(input_alphabet[o]) + str(encoded_func_names[j]) + str(input_alphabet[k]));
-					transitions[states.back()] += make_transition('R', states.back() + "R", 'R', "RIGHT");
-					transitions[states.back()] += make_transition('L', states.back() + "L", 'L', "RIGHT");
-				}
-				for (int k = 0; k < input_alphabet.length(); k++)
-				{
-					for (int m = 0; m < RL.length(); m++)
+					states.push_back(str(input_alphabet[o]) + "_learn_" + str(encoded_func_names[i]) + str(input_alphabet[o]) + str(encoded_func_names[j]));
+					for (int k = 0; k < input_alphabet.length(); k++)
 					{
-						states.push_back(str(input_alphabet[o]) + "_learn_" + str(encoded_func_names[i]) + str(input_alphabet[o]) + str(encoded_func_names[j]) + str(input_alphabet[k]) + str(RL[m]));
-						for (int f = 0; f < alphabet.length(); f++)
+						transitions[states.back()] += make_transition(input_alphabet[k], states.back() + str(input_alphabet[k]), input_alphabet[k], "RIGHT");
+					}
+					for (int k = 0; k < input_alphabet.length(); k++)
+					{
+						states.push_back(str(input_alphabet[o]) + "_learn_" + str(encoded_func_names[i]) + str(input_alphabet[o]) + str(encoded_func_names[j]) + str(input_alphabet[k]));
+						transitions[states.back()] += make_transition('R', states.back() + "R", 'R', "RIGHT");
+						transitions[states.back()] += make_transition('L', states.back() + "L", 'L', "RIGHT");
+					}
+					for (int k = 0; k < input_alphabet.length(); k++)
+					{
+						for (int m = 0; m < RL.length(); m++)
 						{
-							if (alphabet[f] != 'I')
-								transitions[states.back()] += make_transition(alphabet[f], states.back(), alphabet[f], "RIGHT");
-							else
-								transitions[states.back()] += make_transition(alphabet[f], "read_input_" + str(encoded_func_names[j]), input_alphabet[k], (RL[m] == 'R') ? "RIGHT" : "LEFT");
+							states.push_back(str(input_alphabet[o]) + "_learn_" + str(encoded_func_names[i]) + str(input_alphabet[o]) + str(encoded_func_names[j]) + str(input_alphabet[k]) + str(RL[m]));
+							for (int f = 0; f < alphabet.length(); f++)
+							{
+								if (alphabet[f] != 'I')
+									transitions[states.back()] += make_transition(alphabet[f], states.back(), alphabet[f], "RIGHT");
+								else
+									transitions[states.back()] += make_transition(alphabet[f], "read_input_" + str(encoded_func_names[j]), input_alphabet[k], (RL[m] == 'R') ? "RIGHT" : "LEFT");
+							}
 						}
 					}
 				}
@@ -136,7 +150,7 @@ void addstatestransitions()
 int	main()
 {
 	alphabet += encoded_func_names;
-	alphabet += "#I:|RLS";
+	alphabet += "#I:|RL";
 	for (int i = 0; i < encoded_func_names.length(); i++)
 		alphabet += str(encoded_func_names[i] + 32);
 	addstatestransitions();
@@ -147,7 +161,7 @@ int	main()
 		utm += "\"" + std::string(1, alphabet[i]) + "\"" + ((i == alphabet.length()-1) ? "" : ", ");
 	utm += addline(" ],\n");
 	utm += addline("\"blank\" : \".\",\n", 1);
-	utm += addline("\"states\" : [ ", 1);
+	utm += addline("\"states\" : [ \"HALT\", ", 1);
 	for (int i = 0; i < states.size(); i++)
 		utm += "\"" + states[i] + "\"" + ((i == states.size()-1) ? "" : ", ");
 	utm += addline(" ],\n");
